@@ -25,4 +25,4 @@ Follow me for more such Projects
 
 Thank You
 
-[embed] https://github.com/jayantverma2809/Stock-Analysis/blob/a0955f3b18f03095b78d53e42dae8a77c64bd7b6/Stock%20App.pdf [/embed]
+[embed]https://github.com/jayantverma2809/Stock-Analysis/blob/a0955f3b18f03095b78d53e42dae8a77c64bd7b6/Stock%20App.pdf[/embed]
