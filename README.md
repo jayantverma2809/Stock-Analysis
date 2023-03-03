@@ -1,4 +1,4 @@
-# Stock-Analysis-App
+# Stock-Analysis-App - https://lnkd.in/g2AX5DFj
 
 Revolutionize your stock analysis with my new Stock Analysis Webapp!
 
@@ -16,8 +16,6 @@ All the stocks listed on NSE (National Stock Exchange), India are available on t
 Soon the app will also have price forecasting available on it.
 
 ~ Mobile Users try using it on desktop mode for better experience.
-
-WebApp : https://lnkd.in/g2AX5DFj
 
 Please review it, any addons or suggestions are most welcome, will surely love to hear feedbacks to get better.
 
