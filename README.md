@@ -1,4 +1,4 @@
-# Stock-Analysis-App - https://lnkd.in/g2AX5DFj
+# Stock-Analysis-App - https://jayantverma-stock-analysis-app.streamlit.app/
 
 Revolutionize your stock analysis with my new Stock Analysis Webapp!
 
