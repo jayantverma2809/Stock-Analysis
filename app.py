@@ -62,19 +62,19 @@ user_input = st.selectbox('__Please select the stock for Fundamental and Technic
 
 ticker = stock_dict[user_input]
 ticker_yf = ticker+".NS"
-quote_data = si.get_quote_table(ticker_yf)
+quote_data = get_quote_table(ticker_yf)
 for key in quote_data.keys():
     if quote_data[key] is np.nan:
         quote_data[key] = "n/a"
     else:
         pass
 today_date = datetime.datetime.today()
-stats_value = pd.DataFrame(si.get_stats_valuation(ticker_yf))
+stats_value = pd.DataFrame(get_stats_valuation(ticker_yf))
 stats_value.fillna("n/a",inplace=True)
 attr = list(stats_value.iloc[:,0])
 val = list(stats_value.iloc[:,1])
 stats_value_dict = dict(zip(attr,val))
-stats = si.get_stats(ticker_yf)
+stats = get_stats(ticker_yf)
 stats.fillna("n/a",inplace=True)
 stats_dict = dict(zip(stats["Attribute"],stats["Value"]))
 

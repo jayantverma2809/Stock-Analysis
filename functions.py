@@ -1,7 +1,9 @@
-from yahoo_fin import stock_info as si
+from yahoo_fin.stock_info import get_live_price, force_float
 import pandas as pd
 import numpy as np
 import plotly.express as px
+from io import StringIO
+import requests
 
 stocks_ticker = pd.read_csv("stocks_ticker.csv")
 base_url = "https://ticker.finology.in/company/"
@@ -20,7 +22,8 @@ def get_stock_ticker_dict():
 
 #Getting Financial Tables
 def get_tables(ticker):
-    tables = pd.read_html("https://ticker.finology.in/company/"+ticker)
+    # tables = pd.read_html("https://ticker.finology.in/company/"+ticker)
+    tables = pd.read_html(StringIO(requests.get("https://ticker.finology.in/company/"+ ticker).text))
     return tables
 
 #Separating Balance Sheet
@@ -144,3 +147,84 @@ def plot_volume(data,ticker):
     fig = px.bar(data,x=data.index,y=data['volume']/1000000,title=ticker,labels={'y':'Million','index':'Date'})
     return fig
 
+def get_quote_table(ticker , dict_result = True, headers = {'User-agent': 'Mozilla/5.0'}): 
+    
+    '''Scrapes data elements found on Yahoo Finance's quote page 
+       of input ticker
+    
+       @param: ticker
+       @param: dict_result = True
+    '''
+
+    site = "https://finance.yahoo.com/quote/" + ticker + "?p=" + ticker
+    
+    tables = pd.read_html(StringIO(requests.get(site, headers=headers).text))
+
+    data = pd.concat([tables[0], tables[1]], axis=0)
+
+    data.columns = ["attribute" , "value"]
+    
+    quote_price = pd.DataFrame(["Quote Price", get_live_price(ticker)]).transpose()
+    quote_price.columns = data.columns.copy()
+    
+    data = pd.concat([data, quote_price], axis=0)
+    
+    data = data.sort_values("attribute")
+    
+    data = data.drop_duplicates().reset_index(drop = True)
+    
+    data["value"] = data.value.map(force_float)
+
+    if dict_result:
+        
+        result = {key : val for key,val in zip(data.attribute , data.value)}
+        return result
+        
+    return data 
+
+def get_stats(ticker, headers = {'User-agent': 'Mozilla/5.0'}):
+    
+    '''Scrapes information from the statistics tab on Yahoo Finance 
+       for an input ticker 
+    
+       @param: ticker
+    '''
+
+    stats_site = "https://finance.yahoo.com/quote/" + ticker + \
+                 "/key-statistics?p=" + ticker
+    
+
+    tables = pd.read_html(StringIO(requests.get(stats_site, headers=headers).text))
+    
+    tables = [table for table in tables[1:] if table.shape[1] == 2]
+    table = pd.concat(tables, ignore_index=True)
+    # table = tables[0]
+    # for elt in tables[1:]:
+    #     table = table.append(elt)
+
+    table.columns = ["Attribute" , "Value"]
+    
+    table = table.reset_index(drop = True)
+    
+    return table
+
+def get_stats_valuation(ticker, headers = {'User-agent': 'Mozilla/5.0'}):
+    
+    '''Scrapes Valuation Measures table from the statistics tab on Yahoo Finance 
+       for an input ticker 
+    
+       @param: ticker
+    '''
+
+    stats_site = "https://finance.yahoo.com/quote/" + ticker + \
+                 "/key-statistics?p=" + ticker
+    
+    
+    tables = pd.read_html(StringIO(requests.get(stats_site, headers=headers).text))
+    
+    tables = [table for table in tables if "Trailing P/E" in table.iloc[:,0].tolist()]
+    
+    
+    table = tables[0].reset_index(drop = True)
+    
+    return table
