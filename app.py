@@ -8,12 +8,12 @@ from functions import *
 import datetime
 
 # Page Configuration
-st.set_page_config(page_title="Jayant Verma", page_icon=Image.open('statics/me.png'),layout="wide",initial_sidebar_state="expanded")
+st.set_page_config(page_title="Jayant Verma", page_icon=Image.open('statics/Me.jpg'),layout="wide",initial_sidebar_state="expanded")
 
 #Sidebar
 
 # Add profile image
-profile_image = Image.open("statics/me.png")
+profile_image = Image.open("statics/Me.jpg")
 st.sidebar.image(profile_image, use_column_width=True)
 
 # Add contact information
