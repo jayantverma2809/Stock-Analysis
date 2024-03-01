@@ -300,3 +300,7 @@ with tab2:
         fig_bollinger = calculate_and_plot_bollinger(trade_data,ndays_bb,ticker)
         st.plotly_chart(fig_bollinger,use_container_width=True)
         st.write('''***''')
+
+
+
+## added abhiram as a co-author
