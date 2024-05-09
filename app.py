@@ -18,34 +18,51 @@ st.sidebar.image(profile_image, use_column_width=True)
 
 # Add contact information
 st.sidebar.title("Jayant Verma")
-st.sidebar.write("Data Scientist")
+st.sidebar.write("Data Scientist & AI Engineer")
 st.sidebar.write("You can reach me at:")
 st.sidebar.subheader("jayantverma9380@gmail.com")
 st.sidebar.subheader("[LinkedIn](https://www.linkedin.com/in/jayantverma28)")
+st.sidebar.subheader("[X](https://x.com/__kanhaiya__)")
+st.sidebar.subheader("[Instagram](http://instagram.com/_._.kanhaiya)")
 st.sidebar.subheader("[GitHub](https://github.com/jayantverma2809)")
 st.sidebar.subheader("[Kaggle](https://www.kaggle.com/jayantverma9380)")
 
 #Skills
 st.sidebar.header("Skills")
 st.sidebar.write("Here are some of my top skills:")
-st.sidebar.write("- Python programming")
-st.sidebar.write("- SQL")
-st.sidebar.write("- Data analysis and visualization")
-st.sidebar.write("- Feature Engineering & Feature Selection")
-st.sidebar.write("- Machine learning")
+st.sidebar.write("- Python, SQL")
+st.sidebar.write("- Databases : PostgreSQL, MongoDB, Pinecone, Qdrant")
+st.sidebar.write("- Libraries & Frameworks : FastAPI, Openai, Llama-index, Langchain, Pinecone, LLM-Sherpa, Openpipe, PyMongo, Transformers, Huggingface, Boto3, Pandas, Numpy, Pandasai, Matplotlib, Seaborn, Scikit-Learn, Streamlit, BeautifulSoup")
+st.sidebar.write("- Models : GPT-3.5, GPT-4, Text-da-vinci, Dall.E,Instructor Large, Llama-2, LLama-3, Stable Diffusion, Bart-Base, Claude Instant V1, Claude 3, Phi-3")
+st.sidebar.write("- Data Science : Data Collection, Data Wrangling, Data Visualization, Exploratory Data Analysis, Feature Engineering, Feature Selection, Machine Learning(Regression, Classification, Clustering), Model Evaluation, Model Deployment")
+st.sidebar.write("- AWS Services : Bedrock, Textract, Cognito")
+st.sidebar.write("- Version Control & Deployment : Git & Github")
 
+st.sidebar.title("Experience")
+st.sidebar.header("- Data Scientist - Softsensor.ai [June, 2023 - Present]")
+st.sidebar.write("Worked on Softsensor X, an AI-based application that allows users to perform QA on their data source, compare and contrast QA between multiple docs, image generation, and offers data visualization capabilities.")
+st.sidebar.subheader("Key responsibilities and achievements include:")
+st.sidebar.write("- Developed and managed the entire backend of the web app using FastAPI. - Created pipelines for data ingestion, RAG (Retrieval Augmented Generation), RAG Fusion, Hybrid Search, Metadata filtering, Data Visualization, Image Generation, Agent for full automation, Query Transformation, Compare and contrast, etc. - Fine-tuned models such as GPT-3.5, Llama-2 for QA use case and Bart-base for query transformation")
+st.sidebar.write("- Created pipelines for data ingestion, RAG (Retrieval Augmented Generation), RAG Fusion, Hybrid Search, Metadata filtering, Data Visualization, Image Generation, Agent for full automation, Query Transformation, Compare and contrast, etc.")
+st.sidebar.write("- Fine-tuned models such as GPT-3.5, Llama-2 for QA use case and Bart-base for query transformation")
+
+st.sidebar.title("Open Source Contributions")
+st.sidebar.subheader("Llama-index")
+st.sidebar.write("An open-source framework for developing applications that use language models. It's a data framework that can connect custom data sources to large language models (LLMs).")
 #Projects
-st.sidebar.title("Other Projects")
+st.sidebar.title("Projects")
 st.sidebar.write("Here are some of my projects:")
-st.sidebar.header("Machine Learning Projects")
-st.sidebar.subheader("[Cyberbullying Tweet Recognition App](https://lnkd.in/d_beCUvK)")
-st.sidebar.write("Description: This App predicts the nature of the tweet into 6 categories :  Age, Ethnicity, Gender, Religion, other, Not cybebullying")
-st.sidebar.subheader("[Used Phone Price Prediction](https://usedphonepriceprediction.azurewebsites.net/)")
-st.sidebar.write("Description: Using unsupervised learning techniques to predict prices of used phones using their various features such as days used, camera, battery,etc.")
-st.sidebar.header("Data Preprocessing Projects")
-st.sidebar.subheader("[EDA & Feature Engineering - Bike Sharing Data](https://lnkd.in/dzjAsajs)")
-st.sidebar.write("Description: Under this data preprocessing project, I have performed time series analysis, exploratory data analysis and various feature engineering techniques such as transformations, handling outliers, etc to convert raw data into model training ready data.")
-st.sidebar.subheader("[EDA & Feature Engineering - Wine Quality Data](https://lnkd.in/dKRMT7Ym)")
+st.sidebar.subheader("- Softsensor X")
+st.sidebar.write("Developed and managed the entire backend of the web app using FastAPI.")
+st.sidebar.write("Created pipelines for data ingestion, RAG (Retrieval Augmented Generation), RAG Fusion, Hybrid Search, Metadata filtering, Data Visualization, Image Generation, Agent for full automation, Query Transformation, Compare and contrast, etc.")
+st.sidebar.write("Fine-tuned models such as GPT-3.5, Llama-2 for QA use case and Bart-base for query transformation.")
+st.sidebar.subheader("- [Cyberbullying Tweet Recognition App](https://lnkd.in/d_beCUvK)")
+st.sidebar.write("This App predicts the nature of the tweet into 6 categories :  Age, Ethnicity, Gender, Religion, other, Not cybebullying")
+st.sidebar.subheader("- [Used Phone Price Prediction](https://usedphonepriceprediction.azurewebsites.net/)")
+st.sidebar.write("Using unsupervised learning techniques to predict prices of used phones using their various features such as days used, camera, battery,etc.")
+st.sidebar.subheader("- [EDA & Feature Engineering - Bike Sharing Data](https://lnkd.in/dzjAsajs)")
+st.sidebar.write("Under this data preprocessing project, I have performed time series analysis, exploratory data analysis and various feature engineering techniques such as transformations, handling outliers, etc to convert raw data into model training ready data.")
+st.sidebar.subheader("- [EDA & Feature Engineering - Wine Quality Data](https://lnkd.in/dKRMT7Ym)")
 st.sidebar.write("Under this data preprocessing project, I have performed exploratory data analysis and various feature engineering techniques such as transformations, handling outliers, standardization to convert raw data into model training ready data.")
 
 
@@ -69,7 +86,7 @@ for key in quote_data.keys():
     else:
         pass
 today_date = datetime.datetime.today()
-stats_value = pd.DataFrame(get_stats_valuation(ticker_yf))
+stats_value = get_stats_valuation(ticker_yf)
 stats_value.fillna("n/a",inplace=True)
 attr = list(stats_value.iloc[:,0])
 val = list(stats_value.iloc[:,1])
@@ -85,7 +102,7 @@ with tab1:
         col1s, col2s = st.columns(2)
         with col1s:
             st.header(user_input)
-            st.subheader("₹"+str(round(quote_data['Quote Price'],2)))
+            st.subheader("₹"+str(quote_data['Quote Price']))
         with col2s:
             st.write("")
             st.subheader("NSE : "+ticker)
@@ -154,7 +171,8 @@ with tab1:
         col1c, col2c, col3c = st.columns(3)
         with col1c:
             #Market Capital
-            market_cap = quote_data['Market Cap'] 
+            # market_cap = quote_data['Market Cap'] 
+            market_cap = quote_data['Market Cap (intraday)'] 
             if market_cap == "n/a":
                 st.metric(label="__Market Capital__",value=market_cap,help="Market capitalization is the aggregate valuation of the company based on its current share price and the total number of outstanding shares.")
             else:
@@ -212,14 +230,14 @@ with tab1:
             #Revenue Per Share
             st.metric(label="__Revenue/Share (ttm)__",value=stats_dict['Revenue Per Share (ttm)'],help="Total revenue earned per share over a designated period, whether quarterly, semi-annually, annually, or trailing twelve months (TTM).")
             #PEG Ratio(5Yrs Expected)
-            st.metric(label="__PEG Ratio (5yr-exp.)__",value=stats_value_dict['PEG Ratio (5 yr expected)'],help="P/E ratio divided by the growth rate of its earnings for a specified time period. PEG ratio is used to determine a stock's value while also factoring in the company's expected earnings growth")
+            st.metric(label="__PEG Ratio (5yr-exp.)__",value=stats_value_dict['PEG Ratio (5yr expected)'],help="P/E ratio divided by the growth rate of its earnings for a specified time period. PEG ratio is used to determine a stock's value while also factoring in the company's expected earnings growth")
         with col3r:
             #P.B.Ratio
-            st.metric(label="__P.B. Ratio (mrq)__",value=stats_value_dict['Price/Book (mrq)'],help="It shows the relationship between the current price and the book value of each share. A lower P/B ratio can mean that the stock is undervalued.")
+            st.metric(label="__P.B. Ratio (mrq)__",value=stats_value_dict['Price/Book'],help="It shows the relationship between the current price and the book value of each share. A lower P/B ratio can mean that the stock is undervalued.")
             #Payout Ratio
             st.metric(label="__Payout Ratio__",value=stats_dict['Payout Ratio 4'],help="The payout ratio is a financial metric showing the proportion of earnings a company pays its shareholders in the form of dividends")
             #Price to Sales Ratio
-            st.metric(label="__Price/Sales Ratio__",value=stats_value_dict['Price/Sales (ttm)'],help="It indicates how much investor paid for a share compared to the sales a company.")
+            st.metric(label="__Price/Sales Ratio__",value=stats_value_dict['Price/Sales'],help="It indicates how much investor paid for a share compared to the sales a company.")
         with col4r:
             #Total Debt to Equity Ratio (mrq)
             st.metric(label="__Total Debt/Equity Ratio (mrq)__",value=stats_dict['Total Debt/Equity (mrq)'],help="Total Debt for the most recent interim period divided by Total Shareholder Equity for the same period. Measure of degree to which a company is financing through debt vs owned funds, ideal ratio should be less than 1.")
@@ -262,7 +280,7 @@ with tab2:
         col1s, col2s = st.columns(2)
         with col1s:
             st.header(user_input)
-            st.subheader("₹"+str(round(quote_data['Quote Price'],2)))
+            st.subheader("₹"+str(quote_data['Quote Price']))
         with col2s:
             st.write("")
             st.subheader("NSE : "+ticker)
@@ -300,7 +318,3 @@ with tab2:
         fig_bollinger = calculate_and_plot_bollinger(trade_data,ndays_bb,ticker)
         st.plotly_chart(fig_bollinger,use_container_width=True)
         st.write('''***''')
-
-
-
-## added abhiram as a co-author

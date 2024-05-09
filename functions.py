@@ -1,12 +1,20 @@
-from yahoo_fin.stock_info import get_live_price, force_float
 import pandas as pd
-import numpy as np
 import plotly.express as px
 from io import StringIO
-import requests
+import requests, random
+from bs4 import BeautifulSoup
 
 stocks_ticker = pd.read_csv("stocks_ticker.csv")
 base_url = "https://ticker.finology.in/company/"
+user_agents = [
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36",
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36",
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3",
+        "Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; AS; rv:11.0) like Gecko",
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0.3 Safari/605.1.15"
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/116.0",
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36"
+    ]
 
 #Creating list of Stocks listed in NSE
 def get_stock_names():
@@ -23,7 +31,7 @@ def get_stock_ticker_dict():
 #Getting Financial Tables
 def get_tables(ticker):
     # tables = pd.read_html("https://ticker.finology.in/company/"+ticker)
-    tables = pd.read_html(StringIO(requests.get("https://ticker.finology.in/company/"+ ticker).text))
+    tables = pd.read_html(StringIO(requests.get(base_url + ticker).text))
     return tables
 
 #Separating Balance Sheet
@@ -147,42 +155,54 @@ def plot_volume(data,ticker):
     fig = px.bar(data,x=data.index,y=data['volume']/1000000,title=ticker,labels={'y':'Million','index':'Date'})
     return fig
 
-def get_quote_table(ticker , dict_result = True, headers = {'User-agent': 'Mozilla/5.0'}): 
+# def get_quote_table(ticker , dict_result = True, headers = {'User-agent': 'Mozilla/5.0'}): 
     
-    '''Scrapes data elements found on Yahoo Finance's quote page 
-       of input ticker
+#     '''Scrapes data elements found on Yahoo Finance's quote page 
+#        of input ticker
     
-       @param: ticker
-       @param: dict_result = True
-    '''
+#        @param: ticker
+#        @param: dict_result = True
+#     '''
 
+#     site = "https://finance.yahoo.com/quote/" + ticker + "?p=" + ticker
+    
+#     tables = pd.read_html(StringIO(requests.get(site, headers=headers).text))
+
+#     data = pd.concat([tables[0], tables[1]], axis=0)
+
+#     data.columns = ["attribute" , "value"]
+    
+#     quote_price = pd.DataFrame(["Quote Price", get_live_price(ticker)]).transpose()
+#     quote_price.columns = data.columns.copy()
+    
+#     data = pd.concat([data, quote_price], axis=0)
+    
+#     data = data.sort_values("attribute")
+    
+#     data = data.drop_duplicates().reset_index(drop = True)
+    
+#     data["value"] = data.value.map(force_float)
+
+#     if dict_result:
+        
+#         result = {key : val for key,val in zip(data.attribute , data.value)}
+#         return result
+        
+#     return data 
+
+def get_quote_table(ticker): 
     site = "https://finance.yahoo.com/quote/" + ticker + "?p=" + ticker
-    
-    tables = pd.read_html(StringIO(requests.get(site, headers=headers).text))
+    print(site)
+    response = requests.get(site, headers={'User-agent': random.choice(user_agents)})
+    soup = BeautifulSoup(response.content, 'html.parser')
+    values_dict = {}
+    values_dict["Quote Price"] = soup.find('fin-streamer', class_='livePrice')['data-value']
+    data = soup.find_all("li","svelte-tx3nkj")
+    for i in data:
+        values_dict[i.find("span","label svelte-tx3nkj").text] = i.find("span","value svelte-tx3nkj").text.strip()
+    return values_dict
 
-    data = pd.concat([tables[0], tables[1]], axis=0)
-
-    data.columns = ["attribute" , "value"]
-    
-    quote_price = pd.DataFrame(["Quote Price", get_live_price(ticker)]).transpose()
-    quote_price.columns = data.columns.copy()
-    
-    data = pd.concat([data, quote_price], axis=0)
-    
-    data = data.sort_values("attribute")
-    
-    data = data.drop_duplicates().reset_index(drop = True)
-    
-    data["value"] = data.value.map(force_float)
-
-    if dict_result:
-        
-        result = {key : val for key,val in zip(data.attribute , data.value)}
-        return result
-        
-    return data 
-
-def get_stats(ticker, headers = {'User-agent': 'Mozilla/5.0'}):
+def get_stats(ticker, headers = {'User-agent': random.choice(user_agents)}):
     
     '''Scrapes information from the statistics tab on Yahoo Finance 
        for an input ticker 
@@ -208,7 +228,7 @@ def get_stats(ticker, headers = {'User-agent': 'Mozilla/5.0'}):
     
     return table
 
-def get_stats_valuation(ticker, headers = {'User-agent': 'Mozilla/5.0'}):
+def get_stats_valuation(ticker, headers = {'User-agent': random.choice(user_agents)}):
     
     '''Scrapes Valuation Measures table from the statistics tab on Yahoo Finance 
        for an input ticker 
